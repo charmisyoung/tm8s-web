@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlmodel import Session
 from starlette.responses import FileResponse
+from starlette.staticfiles import StaticFiles
 
 from .database import create_db_and_tables, get_session
 from .services import PlayerService
@@ -60,16 +61,4 @@ def find_connections(p1: str, p2: str, session: Session = Depends(get_session)):
         "count": len(connections)
     }
 
-if os.path.isdir("static_ui"):
-    # 2. Mount the 'assets' folder (JS/CSS)
-    # The 'assets' route is hit when React loads its bundle files
-    app.mount("/assets", StaticFiles(directory="static_ui/assets"), name="assets")
-
-    # 3. Catch-all route: For any other URL, serve index.html
-    @app.get("/{full_path:path}")
-    async def serve_react_app(full_path: str):
-        # Allow API calls to pass through
-        if full_path.startswith("api/"):
-            raise HTTPException(status_code=404, detail="API Endpoint not found")
-        # Serve the single React file for every route
-        return FileResponse("static_ui/index.html")
+app.mount("/", StaticFiles(directory="static_ui", html=True), name="static")
