@@ -44,4 +44,6 @@ Clone the repository and set up the environments for both server and client.
 cd tm8s-web
 python -m venv venv
 source venv/bin/activate  # On Windows use: venv\Scripts\activate
+
 pip install -r requirements.txt
+

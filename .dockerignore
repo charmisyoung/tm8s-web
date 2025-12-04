@@ -1,5 +1,43 @@
+<<<<<<< HEAD
 fly.toml
 .git/
 __pycache__/
 .envrc
 .venv/
+=======
+# flyctl launch added from .idea/.gitignore
+# Default ignored files
+.idea/shelf
+.idea/workspace.xml
+
+# flyctl launch added from .venv/.gitignore
+# created by virtualenv automatically
+.venv/**/*
+
+# flyctl launch added from tm8s-frontend/.gitignore
+# Logs
+tm8s-frontend/**/logs
+tm8s-frontend/**/*.log
+tm8s-frontend/**/npm-debug.log*
+tm8s-frontend/**/yarn-debug.log*
+tm8s-frontend/**/yarn-error.log*
+tm8s-frontend/**/pnpm-debug.log*
+tm8s-frontend/**/lerna-debug.log*
+
+tm8s-frontend/**/node_modules
+tm8s-frontend/**/dist
+tm8s-frontend/**/dist-ssr
+tm8s-frontend/**/*.local
+
+# Editor directories and files
+tm8s-frontend/**/.vscode/*
+!tm8s-frontend/**/.vscode/extensions.json
+tm8s-frontend/**/.idea
+tm8s-frontend/**/.DS_Store
+tm8s-frontend/**/*.suo
+tm8s-frontend/**/*.ntvs*
+tm8s-frontend/**/*.njsproj
+tm8s-frontend/**/*.sln
+tm8s-frontend/**/*.sw?
+fly.toml
+>>>>>>> 9fe2471 (fix: added missing os import for static file check)
