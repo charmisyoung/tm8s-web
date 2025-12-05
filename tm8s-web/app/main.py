@@ -61,4 +61,6 @@ def find_connections(p1: str, p2: str, session: Session = Depends(get_session)):
         "count": len(connections)
     }
 
+app.mount("/assets", StaticFiles(directory="static_ui/assets"), name="assets")
+
 app.mount("/", StaticFiles(directory="static_ui", html=True), name="static")
