@@ -2,37 +2,14 @@ import requests
 from typing import List, Tuple
 from datetime import datetime
 
-class FotMobAPI:
+# 👇 RENAMED from FotMobAPI to TheSportsDBAPI
+class TheSportsDBAPI:
     BASE_URL = "https://www.thesportsdb.com/api/v1/json/3"
     
-    # Hardcoded badges for teams with broken/duplicate API IDs
+    # Manual fixes for teams with broken API data
     MANUAL_BADGE_FIXES = {
-        # Premier League
         "Everton": "https://r2.thesportsdb.com/images/media/team/badge/eqayrf1523184794.png",
-        "Fulham": "https://www.thesportsdb.com/images/media/team/badge/g105s01611616723.png",
-        "Liverpool": "https://r2.thesportsdb.com/images/media/team/badge/uvxuqq1448813372.png",
-        "Arsenal": "https://r2.thesportsdb.com/images/media/team/badge/uyhbfe1612467038.png",
-        "Manchester United": "https://r2.thesportsdb.com/images/media/team/badge/xzqdr11517660252.png",
-        "Chelsea": "https://r2.thesportsdb.com/images/media/team/badge/yvwvtu1448813215.png",
-        "Manchester City": "https://r2.thesportsdb.com/images/media/team/badge/vwpvry1467462651.png",
-        "Tottenham": "https://r2.thesportsdb.com/images/media/team/badge/dfy2681674381536.png",
-        
-        # La Liga
-        "Real Madrid": "https://r2.thesportsdb.com/images/media/team/badge/84vmyh1538352460.png",
-        "Barcelona": "https://r2.thesportsdb.com/images/media/team/badge/7qkg1q1518291291.png",
-        "Atletico Madrid": "https://r2.thesportsdb.com/images/media/team/badge/zyd10q1582230752.png",
-        
-        # Serie A
-        "Juventus": "https://r2.thesportsdb.com/images/media/team/badge/texyuw1296684789.png",
-        "AC Milan": "https://r2.thesportsdb.com/images/media/team/badge/qrxqws1448814598.png",
-        "Inter": "https://r2.thesportsdb.com/images/media/team/badge/l2202a1674393663.png",
-        
-        # Bundesliga
-        "Bayern Munich": "https://r2.thesportsdb.com/images/media/team/badge/w80y9m1579710927.png",
-        "Borussia Dortmund": "https://r2.thesportsdb.com/images/media/team/badge/y089601569485747.png",
-        
-        # Ligue 1
-        "Paris SG": "https://r2.thesportsdb.com/images/media/team/badge/rwxxuw1420415212.png"
+        "Fulham": "https://www.thesportsdb.com/images/media/team/badge/g105s01611616723.png" 
     }
 
     def __init__(self):
@@ -47,6 +24,7 @@ class FotMobAPI:
     def _fetch_team_badge(self, team_id: str) -> str:
         """Fallback: Fetch Team details directly."""
         if not team_id: return ""
+        
         try:
             resp = self.session.get(f"{self.BASE_URL}/lookupteam.php", params={"id": team_id}, timeout=5)
             if resp.status_code == 200:
@@ -54,25 +32,25 @@ class FotMobAPI:
                 teams = data.get("teams") or []
                 if teams:
                     t = teams[0]
-                    if str(t.get("idTeam")) == "133604" and str(team_id) != "133604":
+                    # Anti-Arsenal Check
+                    returned_id = str(t.get("idTeam"))
+                    if returned_id == "133604" and str(team_id) != "133604":
                         return ""
-                    return (t.get("strBadge") or t.get("strTeamBadge") or t.get("strTeamLogo") or "")
+
+                    return (t.get("strBadge") or 
+                            t.get("strTeamBadge") or 
+                            t.get("strTeamLogo") or 
+                            "")
         except:
             pass
         return ""
 
     def _get_badge_url(self, team_id: str, provided_url: str, team_name: str) -> str:
-        # 1. Check Manual Fixes (Strip whitespace and check exact match first)
+        # 1. Check Manual Fixes
         if team_name:
             clean_name = team_name.strip()
-            # Direct Match
             if clean_name in self.MANUAL_BADGE_FIXES:
                 return self.MANUAL_BADGE_FIXES[clean_name]
-            
-
-            for key in self.MANUAL_BADGE_FIXES:
-                if key in clean_name:
-                    return self.MANUAL_BADGE_FIXES[key]
 
         # 2. Use API URL if valid
         if provided_url: return provided_url
@@ -163,7 +141,6 @@ class FotMobAPI:
                         team_id = p.get("idTeam")
                         api_badge = p.get("strTeamBadge") or p.get("strBadge")
                         current_crest = self._get_badge_url(team_id, api_badge, current_team)
-
                         all_clubs_tuples.append((current_team, profile_start, 2025, current_crest))
 
             return all_clubs_tuples
