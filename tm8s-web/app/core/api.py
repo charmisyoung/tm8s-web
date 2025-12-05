@@ -2,13 +2,38 @@ import requests
 from typing import List, Tuple
 from datetime import datetime
 
-
-class TheSportsDBAPI:
+class FotMobAPI:
     BASE_URL = "https://www.thesportsdb.com/api/v1/json/3"
-
+    
+    # 👇 FORCE FIX: Hardcoded badges for teams with broken/duplicate API IDs
+    # This acts as a safety net for the big clubs.
     MANUAL_BADGE_FIXES = {
+        # Premier League
         "Everton": "https://r2.thesportsdb.com/images/media/team/badge/eqayrf1523184794.png",
-        "Fulham": "https://www.thesportsdb.com/images/media/team/badge/g105s01611616723.png"
+        "Fulham": "https://www.thesportsdb.com/images/media/team/badge/g105s01611616723.png",
+        "Liverpool": "https://r2.thesportsdb.com/images/media/team/badge/uvxuqq1448813372.png",
+        "Arsenal": "https://r2.thesportsdb.com/images/media/team/badge/uyhbfe1612467038.png",
+        "Manchester United": "https://r2.thesportsdb.com/images/media/team/badge/xzqdr11517660252.png",
+        "Chelsea": "https://r2.thesportsdb.com/images/media/team/badge/yvwvtu1448813215.png",
+        "Manchester City": "https://r2.thesportsdb.com/images/media/team/badge/vwpvry1467462651.png",
+        "Tottenham": "https://r2.thesportsdb.com/images/media/team/badge/dfy2681674381536.png",
+        
+        # La Liga
+        "Real Madrid": "https://r2.thesportsdb.com/images/media/team/badge/84vmyh1538352460.png",
+        "Barcelona": "https://r2.thesportsdb.com/images/media/team/badge/7qkg1q1518291291.png",
+        "Atletico Madrid": "https://r2.thesportsdb.com/images/media/team/badge/zyd10q1582230752.png",
+        
+        # Serie A
+        "Juventus": "https://r2.thesportsdb.com/images/media/team/badge/texyuw1296684789.png",
+        "AC Milan": "https://r2.thesportsdb.com/images/media/team/badge/qrxqws1448814598.png",
+        "Inter": "https://r2.thesportsdb.com/images/media/team/badge/l2202a1674393663.png",
+        
+        # Bundesliga
+        "Bayern Munich": "https://r2.thesportsdb.com/images/media/team/badge/w80y9m1579710927.png",
+        "Borussia Dortmund": "https://r2.thesportsdb.com/images/media/team/badge/y089601569485747.png",
+        
+        # Ligue 1
+        "Paris SG": "https://r2.thesportsdb.com/images/media/team/badge/rwxxuw1420415212.png"
     }
 
     def __init__(self):
@@ -30,6 +55,7 @@ class TheSportsDBAPI:
                 teams = data.get("teams") or []
                 if teams:
                     t = teams[0]
+                    # Anti-Arsenal Check
                     if str(t.get("idTeam")) == "133604" and str(team_id) != "133604":
                         return ""
                     return (t.get("strBadge") or t.get("strTeamBadge") or t.get("strTeamLogo") or "")
@@ -38,18 +64,26 @@ class TheSportsDBAPI:
         return ""
 
     def _get_badge_url(self, team_id: str, provided_url: str, team_name: str) -> str:
+        # 1. Check Manual Fixes (Strip whitespace and check exact match first)
         if team_name:
             clean_name = team_name.strip()
+            # Direct Match
             if clean_name in self.MANUAL_BADGE_FIXES:
                 return self.MANUAL_BADGE_FIXES[clean_name]
+            
+            # Fuzzy/Partial Match Check (e.g., "Everton FC" -> "Everton")
+            # This helps catch "Liverpool FC" if the key is just "Liverpool"
+            for key in self.MANUAL_BADGE_FIXES:
+                if key in clean_name:
+                    return self.MANUAL_BADGE_FIXES[key]
 
-        # Use API URL if valid
+        # 2. Use API URL if valid
         if provided_url: return provided_url
-
-        # Fallback to lookup
+        
+        # 3. Fallback to lookup
         if team_id and str(team_id).isdigit() and str(team_id) != "0":
             return self._fetch_team_badge(team_id)
-
+        
         return ""
 
     def search_player(self, query: str) -> list:
@@ -68,7 +102,7 @@ class TheSportsDBAPI:
         history_url = f"{self.BASE_URL}/lookupformerteams.php"
         profile_url = f"{self.BASE_URL}/lookupplayer.php"
         params = {"id": player_id}
-
+        
         all_clubs_tuples = []
         teams_seen = set()
         max_departure_year = 0
@@ -76,7 +110,7 @@ class TheSportsDBAPI:
         player_profile = None
 
         try:
-            # 1. Fetch Profile (Birth Year)
+            # 1. Fetch Profile
             prof_resp = self.session.get(profile_url, params=params, timeout=10)
             if prof_resp.status_code == 200:
                 data = prof_resp.json()
@@ -89,17 +123,17 @@ class TheSportsDBAPI:
             if hist_resp.status_code == 200:
                 data = hist_resp.json()
                 former_teams = data.get("formerteams") or []
-
+            
                 for t in former_teams:
                     club_name = t.get("strFormerTeam")
                     start_year = self._safe_get_year(t.get("strJoined"))
                     end_year = self._safe_get_year(t.get("strDeparted"))
                     team_id = t.get("idFormerTeam")
-
+                    
                     crest_url = self._get_badge_url(team_id, t.get("strBadge"), club_name)
 
                     if birth_year > 0 and start_year > 0:
-                        if (start_year - birth_year) > 45: continue
+                        if (start_year - birth_year) > 45: continue 
 
                     if club_name and start_year > 0:
                         final_end = end_year if end_year > 0 else 2025
@@ -125,12 +159,12 @@ class TheSportsDBAPI:
                     if profile_start < max_departure_year: profile_start = max_departure_year
                     if profile_start == 0: profile_start = max_departure_year if max_departure_year > 0 else 2023
 
+                    # Duplicate Check
                     is_duplicate = any(c[0] == current_team and c[1] == profile_start for c in all_clubs_tuples)
                     
                     if not is_duplicate:
                         team_id = p.get("idTeam")
                         api_badge = p.get("strTeamBadge") or p.get("strBadge")
-                        
                         current_crest = self._get_badge_url(team_id, api_badge, current_team)
 
                         all_clubs_tuples.append((current_team, profile_start, 2025, current_crest))
