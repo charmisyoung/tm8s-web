@@ -159,18 +159,25 @@ button:disabled {
 
 @media (max-width: 600px) {
     /* Main layout stacking */
-    .search-box-form {
-        flex-direction: column; 
-        align-items: center;
-        width: 95%;
-        margin: 0 auto;
-    }
+  .search-box-form {
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      gap: 20px;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 800px;
+      box-sizing: border-box;
+  }
     
-    .search-box {
-        flex-direction: column; 
-        width: 100%;
-        gap: 15px;
-    }
+  .search-box {
+      display: flex;
+      flex-direction: row; /* Keep inputs horizontal */
+      gap: 20px;
+      width: 100%; /* 👈 Ensure this takes the full form width */
+      max-width: 600px; /* Optional: Limit input width */
+      /* REMOVED flex-grow: 1, since the form is now a column */
+  }
     
     .player-input {
         width: 100%;
