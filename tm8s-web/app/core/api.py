@@ -5,8 +5,7 @@ from datetime import datetime
 class FotMobAPI:
     BASE_URL = "https://www.thesportsdb.com/api/v1/json/3"
     
-    # 👇 FORCE FIX: Hardcoded badges for teams with broken/duplicate API IDs
-    # This acts as a safety net for the big clubs.
+    # Hardcoded badges for teams with broken/duplicate API IDs
     MANUAL_BADGE_FIXES = {
         # Premier League
         "Everton": "https://r2.thesportsdb.com/images/media/team/badge/eqayrf1523184794.png",
@@ -55,7 +54,6 @@ class FotMobAPI:
                 teams = data.get("teams") or []
                 if teams:
                     t = teams[0]
-                    # Anti-Arsenal Check
                     if str(t.get("idTeam")) == "133604" and str(team_id) != "133604":
                         return ""
                     return (t.get("strBadge") or t.get("strTeamBadge") or t.get("strTeamLogo") or "")
@@ -71,8 +69,7 @@ class FotMobAPI:
             if clean_name in self.MANUAL_BADGE_FIXES:
                 return self.MANUAL_BADGE_FIXES[clean_name]
             
-            # Fuzzy/Partial Match Check (e.g., "Everton FC" -> "Everton")
-            # This helps catch "Liverpool FC" if the key is just "Liverpool"
+
             for key in self.MANUAL_BADGE_FIXES:
                 if key in clean_name:
                     return self.MANUAL_BADGE_FIXES[key]
