@@ -121,7 +121,17 @@ function App() {
                     )}
                 </div>
             )} {/* Results Section - END */}
-
+            
+        <div style={{ marginTop: '50px', fontSize: '0.8rem' }}>
+        <a 
+            href="https://github.com/charmisyoung/tm8s-web-app" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{ color: 'var(--text-secondary)' }}
+        >
+            View Source Code on GitHub
+        </a>
+    </div>
         </div>
     );
 }

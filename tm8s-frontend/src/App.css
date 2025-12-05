@@ -39,28 +39,27 @@ body {
 
 .search-box-form {
     display: flex; 
-    flex-direction: row; 
-    align-items: flex-end; 
+    flex-direction: column; 
+    align-items: center; 
     gap: 20px;
     margin-top: 20px;
-    width: 100%;
+    width: 95%; 
     max-width: 800px;
     box-sizing: border-box;
 }
 
 .search-box {
     display: flex;
-    flex-direction: row;
-    gap: 20px;
-    flex-grow: 1; /* Allows the inputs to take up available horizontal space */
+    flex-direction: column; 
+    gap: 15px;
+    width: 100%;
 }
 
 .player-input {
     display: flex;
     flex-direction: column;
     text-align: left;
-    flex-grow: 1;
-    position: relative;
+    width: 100%;
 }
 
 label {
@@ -88,6 +87,7 @@ button {
   border: none;
   border-radius: 8px;
   transition: background-color 0.2s;
+  width: 100%;
 }
 
 button:hover:not(:disabled) {
@@ -157,7 +157,7 @@ button:disabled {
 
 
 
-@media (max-width: 600px) {
+@media (min-width: 601px) {
     /* Main layout stacking */
   .search-box-form {
       display: flex; 
