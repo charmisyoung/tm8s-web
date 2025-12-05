@@ -1,3 +1,23 @@
+/* ==================================================================== */
+/* GLOBAL THEME VARIABLES & BASE STYLES */
+/* ==================================================================== */
+:root {
+  color-scheme: dark; 
+  --bg-color: #1A1A1A;          /* Deep Charcoal Background */
+  --surface-color: #2C2C2C;     /* Slate Gray for Cards/Inputs */
+  --text-primary: #E4E4E4;       /* Light Gray Readable Text */
+  --text-secondary: #A0A0A0;
+  --accent-color: #00D09C;       /* Neon Accent Color */
+  --failure-color: #FF6F61;      /* Muted Red/Coral for Errors */
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-size: 16px;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -6,6 +26,10 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
+/* ==================================================================== */
+/* LAYOUT AND INPUT STYLES (Desktop-first structure) */
+/* ==================================================================== */
+
 .container {
   display: flex;
   flex-direction: column;
@@ -13,85 +37,151 @@
   align-items: center;
 }
 
+.search-box-form {
+    display: flex; 
+    flex-direction: row; 
+    align-items: flex-end; 
+    gap: 20px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 800px;
+    box-sizing: border-box;
+}
+
 .search-box {
-  display: flex;
-  gap: 20px;
-  margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex-grow: 1; /* Allows the inputs to take up available horizontal space */
 }
 
 .player-input {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    flex-grow: 1;
+    position: relative;
+}
+
+label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 4px;
 }
 
 input {
-  padding: 10px;
+  padding: 12px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--surface-color);
+  background-color: var(--surface-color);
+  color: var(--text-primary);
   font-size: 16px;
 }
 
 button {
-  margin-top: 20px;
-  padding: 10px 20px;
+  padding: 12px 24px;
   font-size: 16px;
   cursor: pointer;
-  background-color: #646cff;
-  color: white;
+  background-color: var(--accent-color); 
+  color: var(--bg-color); 
+  font-weight: bold;
   border: none;
   border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+button:hover:not(:disabled) {
+    background-color: #00A37A; 
 }
 
 button:disabled {
-  background-color: #ccc;
+  background-color: #444;
+  color: var(--text-secondary);
+  cursor: not-allowed;
+}
+
+
+/* ==================================================================== */
+/* CARD AND RESULT STYLES */
+/* ==================================================================== */
+
+.results-area {
+    width: 100%;
+    max-width: 600px;
 }
 
 .card {
-  background: #f9f9f9;
-  border: 1px solid #ddd;
+  background: var(--surface-color); 
+  border: 1px solid #444; 
   padding: 15px;
   margin: 10px 0;
-  border-radius: 8px;
-  text-align: center;
-  color: #333;
+  border-radius: 12px; /* Slightly more rounded corners */
+  text-align: left;
+  color: var(--text-primary);
   position: relative;
   overflow: hidden; 
   z-index: 1; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); 
 }
 
+.success-card {
+  border-color: var(--accent-color); 
+  background-color: #383838; 
+}
+
+.results-area h3 {
+    font-weight: bold;
+}
+
+.results-area h3[style*="red"] {
+    color: var(--failure-color) !important;
+}
+
+/* Crest Styling */
 .card-bg-crest {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 150px; /* Adjust this to make the crest bigger/smaller */
-  
-  /* The visual effects: Transparent, Grayscale, Skewed */
+  width: 150px; 
   opacity: 0.15; 
   filter: grayscale(100%); 
   transform: translate(-50%, -50%) rotate(-15deg) scale(1.5); 
-  
   pointer-events: none; 
-  z-index: 0; /* Put it behind the text */
+  z-index: 0;
 }
-
 
 .card-content {
   position: relative;
   z-index: 1;
 }
 
-.card h4, .card p {
-  position: relative;
-  z-index: 2; 
-  background: transparent;
-}
 
-.success-card {
-  border: 1px solid #00a040; /* Green border */
-  background-color: #e6ffe6; /* Light green background */
-}
 
-.results-area h3 {
-    font-weight: bold;
+@media (max-width: 600px) {
+    /* Main layout stacking */
+    .search-box-form {
+        flex-direction: column; 
+        align-items: center;
+        width: 95%;
+        margin: 0 auto;
+    }
+    
+    .search-box {
+        flex-direction: column; 
+        width: 100%;
+        gap: 15px;
+    }
+    
+    .player-input {
+        width: 100%;
+    }
+
+    button {
+        width: 100%; 
+        margin-top: 10px;
+    }
+
+    #root {
+        padding: 1rem 0.5rem; 
+    }
 }
