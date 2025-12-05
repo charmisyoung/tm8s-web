@@ -122,13 +122,18 @@ function App() {
                 </div>
             )} {/* Results Section - END */}
 
-        <div style={{ marginTop: '50px', fontSize: '0.8rem' }}>
+        <div style={{ marginTop: '50px', fontSize: '0.8rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
         <a 
-            href="https://github.com/charmisyoung/tm8s-web-app" 
+            href="https://github.com/charmisyoung/tm8s-web" 
             target="_blank" 
             rel="noopener noreferrer"
-            style={{ color: 'var(--text-secondary)' }}
+            style={{ color: 'var(--text-secondary)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}
         >
+            <img 
+                src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" 
+                alt="GitHub" 
+                style={{ width: '20px', height: '20px', opacity: 0.7 }} 
+            />
             View Source Code on GitHub
         </a>
     </div>
