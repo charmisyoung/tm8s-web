@@ -7,31 +7,49 @@ class TheSportsDBAPI:
     
     MANUAL_BADGE_FIXES = {
         # Premier League
-        "Everton": "https://r2.thesportsdb.com/images/media/team/badge/eqayrf1523184794.png",
-        "Fulham": "https://www.thesportsdb.com/images/media/team/badge/g105s01611616723.png",
-        "Liverpool": "https://r2.thesportsdb.com/images/media/team/badge/uvxuqq1448813372.png",
         "Arsenal": "https://r2.thesportsdb.com/images/media/team/badge/uyhbfe1612467038.png",
-        "Manchester United": "https://r2.thesportsdb.com/images/media/team/badge/xzqdr11517660252.png",
+        "Aston Villa": "https://r2.thesportsdb.com/images/media/team/badge/jykrpv1717309891.png",
+        "Bournemouth": "https://r2.thesportsdb.com/images/media/team/badge/y08nak1534071116.png",
+        "Brentford": "https://r2.thesportsdb.com/images/media/team/badge/grv1aw1546453779.png",
+        "Brighton and Hove": "https://r2.thesportsdb.com/images/media/team/badge/ywypts1448810904.png",
         "Chelsea": "https://r2.thesportsdb.com/images/media/team/badge/yvwvtu1448813215.png",
+        "Crystal Palace": "https://r2.thesportsdb.com/images/media/team/badge/ia6i3m1656014992.png",
+        "Everton": "https://r2.thesportsdb.com/images/media/team/badge/eqayrf1523184794.png",
+        "Fulham": "https://r2.thesportsdb.com/images/media/team/badge/xwwvyt1448811086.png",
+        "Leeds United": "https://r2.thesportsdb.com/images/media/team/badge/jcgrml1756649030.png",
+        "Liverpool": "https://r2.thesportsdb.com/images/media/team/badge/uvxuqq1448813372.png",
         "Manchester City": "https://r2.thesportsdb.com/images/media/team/badge/vwpvry1467462651.png",
-        "Tottenham": "https://r2.thesportsdb.com/images/media/team/badge/dfy2681674381536.png",
+        "Manchester United": "https://r2.thesportsdb.com/images/media/team/badge/xzqdr11517660252.png",
+        "Newcastle United": "https://r2.thesportsdb.com/images/media/team/badge/lhwuiz1621593302.png",
+        "Nottingham Forest": "https://r2.thesportsdb.com/images/media/team/badge/bk4qjs1546440351.png",
+        "Sunderland": "https://r2.thesportsdb.com/images/media/team/badge/tprtus1448813498.png",
+        "Tottenham": "https://r2.thesportsdb.com/images/media/team/badge/dfyfhl1604094109.png",
+        "West Ham United": "https://r2.thesportsdb.com/images/media/team/badge/yutyxs1467459956.png",
+        "Wolverhampton Wanderers": "https://r2.thesportsdb.com/images/media/team/badge/u9qr031621593327.png",
         
         # La Liga
-        "Real Madrid": "https://r2.thesportsdb.com/images/media/team/badge/84vmyh1538352460.png",
-        "Barcelona": "https://r2.thesportsdb.com/images/media/team/badge/7qkg1q1518291291.png",
-        "Atletico Madrid": "https://r2.thesportsdb.com/images/media/team/badge/zyd10q1582230752.png",
+        "Real Madrid": "https://r2.thesportsdb.com/images/media/team/badge/vwvwrw1473502969.png/",
+        "Barcelona": "https://r2.thesportsdb.com/images/media/team/badge/rwxxuw1420415212.png",
+        "Atletico Madrid": "https://r2.thesportsdb.com/images/media/team/badge/0ulh3q1719984315.png/",
         
         # Serie A
-        "Juventus": "https://r2.thesportsdb.com/images/media/team/badge/texyuw1296684789.png",
-        "AC Milan": "https://r2.thesportsdb.com/images/media/team/badge/qrxqws1448814598.png",
-        "Inter": "https://r2.thesportsdb.com/images/media/team/badge/l2202a1674393663.png",
+        "Juventus": "https://r2.thesportsdb.com/images/media/team/badge/uxf0gr1742983727.png",
+        "AC Milan": "hhttps://r2.thesportsdb.com/images/media/team/badge/wvspur1448806617.png",
+        "Inter": "https://r2.thesportsdb.com/images/media/team/badge/ryhu6d1617113103.png",
         
         # Bundesliga
-        "Bayern Munich": "https://r2.thesportsdb.com/images/media/team/badge/w80y9m1579710927.png",
-        "Borussia Dortmund": "https://r2.thesportsdb.com/images/media/team/badge/y089601569485747.png",
+        "Bayern Munich":      "https://r2.thesportsdb.com/images/media/team/badge/01ogkh1716960412.png",
+        "Borussia Dortmund":  "https://r2.thesportsdb.com/images/media/team/badge/tqo8ge1716960353.png",
+        "Bayer Leverkusen":   "https://r2.thesportsdb.com/images/media/team/badge/3x9k851726760113.png/medium",
+        "RB Leipzig":         "https://r2.thesportsdb.com/images/media/team/badge/zjgapo1594244951.png/medium",
+        "FC Augsburg":        "https://r2.thesportsdb.com/images/media/team/badge/xqyyvq1473453233.png/medium",
+        "FC Heidenheim":      "https://r2.thesportsdb.com/images/media/team/badge/lbj7g01608236988.png/medium",
+        "1. FC Köln":         "https://r2.thesportsdb.com/images/media/team/badge/2j1sc91566049407.png/medium",
+        "Werder Bremen":      "https://r2.thesportsdb.com/images/media/team/badge/tkvqan1716960454.png/medium",
+        "VfL Wolfsburg":      "https://r2.thesportsdb.com/images/media/team/badge/07kp421599680274.png/medium",
         
         # Ligue 1
-        "Paris SG": "https://r2.thesportsdb.com/images/media/team/badge/rwxxuw1420415212.png"
+        "Paris SG": "https://r2.thesportsdb.com/images/media/team/badge/rwqrrq1473504808.png"
     }
 
     def __init__(self):
