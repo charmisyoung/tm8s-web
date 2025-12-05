@@ -68,7 +68,7 @@ function App() {
                         <label>Player 1</label>
                         <input
                             type="text"
-                            placeholder="Enter first player name"
+                            placeholder="Enter name e.g. Messi"
                             value={player1}
                             onChange={(e) => setPlayer1(e.target.value)}
                         />
@@ -79,7 +79,7 @@ function App() {
                         <label>Player 2</label>
                         <input
                             type="text"
-                            placeholder="Enter second player name"
+                            placeholder="Enter name e.g. Neymar"
                             value={player2}
                             onChange={(e) => setPlayer2(e.target.value)}
                         />
@@ -121,7 +121,7 @@ function App() {
                     )}
                 </div>
             )} {/* Results Section - END */}
-            
+
         <div style={{ marginTop: '50px', fontSize: '0.8rem' }}>
         <a 
             href="https://github.com/charmisyoung/tm8s-web-app" 
