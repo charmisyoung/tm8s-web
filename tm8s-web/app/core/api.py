@@ -115,21 +115,25 @@ class TheSportsDBAPI:
                 current_team = p.get("strTeam")
                 status = p.get("strStatus")
                 position = p.get("strPosition") or ""
-
+                
                 is_active = (status != "Retired" and "Manager" not in position)
                 if "_Free Agent" in str(current_team): is_active = False
 
-                if current_team and current_team != "_Retired" and current_team not in teams_seen and is_active:
+                if current_team and current_team != "_Retired" and is_active:
                     profile_start = self._safe_get_year(p.get("dateSigned"))
+                    
                     if profile_start < max_departure_year: profile_start = max_departure_year
                     if profile_start == 0: profile_start = max_departure_year if max_departure_year > 0 else 2023
 
-                    team_id = p.get("idTeam")
-                    api_badge = p.get("strTeamBadge") or p.get("strBadge")
+                    is_duplicate = any(c[0] == current_team and c[1] == profile_start for c in all_clubs_tuples)
+                    
+                    if not is_duplicate:
+                        team_id = p.get("idTeam")
+                        api_badge = p.get("strTeamBadge") or p.get("strBadge")
+                        
+                        current_crest = self._get_badge_url(team_id, api_badge, current_team)
 
-                    current_crest = self._get_badge_url(team_id, api_badge, current_team)
-
-                    all_clubs_tuples.append((current_team, profile_start, 2025, current_crest))
+                        all_clubs_tuples.append((current_team, profile_start, 2025, current_crest))
 
             return all_clubs_tuples
 
