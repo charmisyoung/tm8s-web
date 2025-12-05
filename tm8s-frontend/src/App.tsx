@@ -19,7 +19,7 @@ function App() {
     setResults(null)
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/connections?p1=${player1}&p2=${player2}`)
+      const response = await fetch(`/api/connections?p1=${player1}&p2=${player2}`)
 
       if (response.status === 404) {
         setResults({ count: 0, connections: [] });
