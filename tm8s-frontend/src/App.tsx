@@ -1,5 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css'; 
+
+declare global {
+    interface Window {
+        gtag: (...args: any[]) => void;
+    }
+}
 
 interface Connection {
     club_name: string;
@@ -19,9 +25,23 @@ function App() {
     const [results, setResults] = useState<ResultsData | null>(null);
     const [loading, setLoading] = useState(false);
     
-    // This runs the search on the main button click (or Enter press)
-    const handleSearch = async (e: React.FormEvent) => {
-        e.preventDefault(); 
+
+    const trackPageView = (path: string, title: string) => {
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', 'page_view', {
+                page_title: title,
+                page_path: path,
+                send_to: 'G-NKL88L1XJK' // MUST match your ID
+            });
+        }
+    };
+
+    useEffect(() => {
+        trackPageView('/', 'tm8s Home');
+    }, []);
+            
+    async function handleSearch(e: React.FormEvent) {
+        e.preventDefault();
 
         if (!player1 || !player2) {
             alert("Please enter both player names.");
@@ -34,7 +54,7 @@ function App() {
         try {
             // Use relative URL for Fly.io deployment
             const response = await fetch(`/api/connections?p1=${player1}&p2=${player2}`);
-            
+
             if (response.status === 404) {
                 setResults({ count: 0, connections: [] });
                 return;
