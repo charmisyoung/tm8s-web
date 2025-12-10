@@ -7,7 +7,7 @@ const KoFiWidget = () => {
       zIndex: 9999,     
     }}>
       <a 
-        href='https://ko-fi.com/charmisyoung/' 
+        href='https://ko-fi.com/charmisyoung/tip/' 
         target='_blank' 
         rel='noopener noreferrer'
         title="Tip Me"
