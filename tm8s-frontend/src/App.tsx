@@ -105,7 +105,7 @@ function App() {
                 <button type="submit" disabled={loading || !player1 || !player2}>
                     {loading ? "Scouting..." : "Find Connection"}
                 </button>
-            <p style={{color: '#097969', fontSize: 12 }}>
+            <p style={{color: '#9A2A2A', fontSize: 12 }}>
                 ⚠️ tm8s currently supports football (soccer) only.
             </p>
             </form>
