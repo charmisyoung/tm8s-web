@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css'; 
+import KoFiWidget from './KoFiWidget.tsx';
 
 declare global {
     interface Window {
@@ -157,6 +158,8 @@ function App() {
             View Source Code on GitHub
         </a>
     </div>
+
+    <KoFiWidget />
         </div>
     );
 }
