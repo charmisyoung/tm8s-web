@@ -155,6 +155,23 @@ button:disabled {
   z-index: 1;
 }
 
+.floating-chat-kofi-popup-iframe {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.floating-chat-kofi-popup-iframe-notice {
+    background-color: transparent !important;
+}
+
+[id^="kofi-widget-overlay"] {
+    background: transparent !important; 
+    box-shadow: none !important;
+}
+
+.kofi-button {
+    box-shadow: none !important;
+}
 
 
 @media (min-width: 601px) {
