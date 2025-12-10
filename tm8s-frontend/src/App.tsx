@@ -32,7 +32,7 @@ function App() {
             window.gtag('event', 'page_view', {
                 page_title: title,
                 page_path: path,
-                send_to: 'G-NKL88L1XJK' // MUST match your ID
+                send_to: 'G-NKL88L1XJK'
             });
         }
     };
@@ -53,7 +53,6 @@ function App() {
         setResults(null);
 
         try {
-            // Use relative URL for Fly.io deployment
             const response = await fetch(`/api/connections?p1=${player1}&p2=${player2}`);
 
             if (response.status === 404) {
@@ -78,15 +77,11 @@ function App() {
             <p><i>Uncovering shared history on the pitch</i></p>
 
 
-            <p style={{color: '#00D09C' }}>
-                ⚠️ Currently supports Soccer / Football only.
-            </p>
-
             <form onSubmit={handleSearch} className="search-box-form">
                 <div className="search-box">
                     {/* Player 1 Input */}
                     <div className="player-input">
-                        <label>Player 1</label>
+                        <label><b>Player 1</b></label>
                         <input
                             type="text"
                             placeholder="Enter name e.g. Messi"
@@ -97,7 +92,7 @@ function App() {
 
                     {/* Player 2 Input */}
                     <div className="player-input">
-                        <label>Player 2</label>
+                        <label><b>Player 2</b></label>
                         <input
                             type="text"
                             placeholder="Enter name e.g. Neymar"
@@ -110,6 +105,9 @@ function App() {
                 <button type="submit" disabled={loading || !player1 || !player2}>
                     {loading ? "Scouting..." : "Find Connection"}
                 </button>
+            <p style={{color: '#097969', fontSize: 12 }}>
+                ⚠️ tm8s currently supports football (soccer) only.
+            </p>
             </form>
 
             {/* Results Section - START */}
@@ -143,17 +141,17 @@ function App() {
                 </div>
             )} {/* Results Section - END */}
 
-        <div style={{ marginTop: '50px', fontSize: '0.8rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
+        <div style={{ marginTop: '40px', fontSize: '0.8rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
         <a 
             href="https://github.com/charmisyoung/tm8s-web" 
             target="_blank" 
             rel="noopener noreferrer"
-            style={{ color: 'var(--text-secondary)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '6px' }}
+            className="github-link"
         >
             <img 
                 src="https://github.githubassets.com/assets/GitHub-Mark-ea2971cee799.png" 
                 alt="GitHub" 
-                style={{ width: '20px', height: '20px', opacity: 0.7 }} 
+                style={{ width: '16px', height: '16px', opacity: 0.7, alignItems:'center' }} 
             />
             View Source Code on GitHub
         </a>

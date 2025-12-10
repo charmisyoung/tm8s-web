@@ -3,12 +3,12 @@
 /* ==================================================================== */
 :root {
   color-scheme: dark; 
-  --bg-color: #1A1A1A;          /* Deep Charcoal Background */
-  --surface-color: #2C2C2C;     /* Slate Gray for Cards/Inputs */
-  --text-primary: #E4E4E4;       /* Light Gray Readable Text */
+  --bg-color: #1A1A1A;        
+  --surface-color: #2C2C2C;     
+  --text-primary: #E4E4E4;       
   --text-secondary: #A0A0A0;
-  --accent-color: #00D09C;       /* Neon Accent Color */
-  --failure-color: #FF6F61;      /* Muted Red/Coral for Errors */
+  --accent-color: #00D09C;     
+  --failure-color: #FF6F61;      
 }
 
 body {
@@ -33,7 +33,7 @@ body {
 .container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 2px;
   align-items: center;
 }
 
@@ -78,7 +78,7 @@ input {
 }
 
 button {
-  padding: 12px 24px;
+  padding: 12px 18px;
   font-size: 16px;
   cursor: pointer;
   background-color: var(--accent-color); 
@@ -100,6 +100,32 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.github-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease; 
+}
+
+.github-link img {
+    transform: scale(1); 
+    transition: transform 0.2s ease-out; 
+    align-items: center;
+    width: 22px; 
+    height: 22px;
+    opacity: 0.5;
+}
+
+.github-link:hover {
+  color: var(--accent-color); 
+  font-weight: bold;         
+}
+
+.github-link:hover img {
+    transform: scale(1.2); 
+}
 
 /* ==================================================================== */
 /* CARD AND RESULT STYLES */
@@ -115,7 +141,7 @@ button:disabled {
   border: 1px solid #444; 
   padding: 15px;
   margin: 10px 0;
-  border-radius: 12px; /* Slightly more rounded corners */
+  border-radius: 12px; 
   text-align: left;
   color: var(--text-primary);
   position: relative;
@@ -172,11 +198,10 @@ button:disabled {
     
   .search-box {
       display: flex;
-      flex-direction: row; /* Keep inputs horizontal */
+      flex-direction: row; 
       gap: 20px;
-      width: 100%; /* 👈 Ensure this takes the full form width */
-      max-width: 600px; /* Optional: Limit input width */
-      /* REMOVED flex-grow: 1, since the form is now a column */
+      width: 100%; 
+      max-width: 600px; 
   }
     
     .player-input {
@@ -185,7 +210,8 @@ button:disabled {
 
     button {
         width: 100%; 
-        margin-top: 10px;
+        margin-top: 2px;
+
     }
 
     #root {
