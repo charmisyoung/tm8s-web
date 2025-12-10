@@ -157,10 +157,10 @@ function App() {
             />
             View Source Code on GitHub
         </a>
-    </div>
 
-    <KoFiWidget />
-        </div>
+        <KoFiWidget />
+    </div>
+</div>
     );
 }
 

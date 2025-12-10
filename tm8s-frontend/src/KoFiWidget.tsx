@@ -1,60 +1,44 @@
-import { useEffect } from 'react';
-
-// Declare the Ko-fi widget interface globally so TypeScript recognizes it
-declare global {
-    interface Window {
-        kofiWidgetOverlay: {
-            draw: (
-                id: string, 
-                options: {
-                    type: string; 
-                    'floating-chat.donateButton.text'?: string;
-                    'floating-chat.donateButton.background-color'?: string;
-                    'floating-chat.donateButton.text-color'?: string;
-                }
-            ) => void;
-        };
-    }
-}
+import React from 'react';
 
 const KoFiWidget = () => {
-    useEffect(() => {
-        // Only proceed if the window object and the widget method are available
-        if (typeof window.kofiWidgetOverlay !== 'undefined') {
-            window.kofiWidgetOverlay.draw('charmisyoung', {
-                'type': 'floating-chat',
-                'floating-chat.donateButton.text': 'Tip Me',
-                'floating-chat.donateButton.background-color': '#d9534f',
-                'floating-chat.donateButton.text-color': '#fff'
-            });
-        }
-        
-        // Load the Ko-fi script dynamically only if it hasn't been loaded
-        const scriptId = 'kofi-overlay-script';
-        if (!document.getElementById(scriptId)) {
-            const script = document.createElement('script');
-            script.id = scriptId;
-            script.src = 'https://storage.ko-fi.com/cdn/scripts/overlay-widget.js';
-            document.head.appendChild(script);
-
-            // Important: We need to ensure the `draw` function is called 
-            // *after* the script has loaded.
-            script.onload = () => {
-                 if (typeof window.kofiWidgetOverlay !== 'undefined') {
-                    window.kofiWidgetOverlay.draw('charmisyoung', {
-                        'type': 'floating-chat',
-                        'floating-chat.donateButton.text': 'Tip Me',
-                        'floating-chat.donateButton.background-color': '#d9534f',
-                        'floating-chat.donateButton.text-color': '#fff'
-                    });
-                }
-            };
-        }
-
-    }, []);
-
-    // This component renders nothing itself, it just injects the script/widget
-    return null;
+  return (
+    <a 
+      href='https://ko-fi.com/charmisyoung' 
+      target='_blank' 
+      rel='noopener noreferrer'
+      title="Support me on Ko-fi"
+      style={{ 
+        backgroundColor: '#d9534f', 
+        color: '#fff',
+        textDecoration: 'none',
+        padding: '6px 12px', 
+        borderRadius: '20px',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: 'sans-serif',
+        fontWeight: '600',
+        fontSize: '12px',
+        border: 'none',
+        cursor: 'pointer',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+        transition: 'transform 0.2s ease',
+      }}
+      onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+      onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+    >
+      <img 
+        src='https://storage.ko-fi.com/cdn/cup-border.png' 
+        alt='Ko-fi' 
+        style={{ 
+          height: '14px', 
+          width: 'auto', 
+          marginRight: '6px' 
+        }} 
+      />
+      Tip Me
+    </a>
+  );
 };
 
 export default KoFiWidget;
