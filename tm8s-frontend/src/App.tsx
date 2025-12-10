@@ -73,11 +73,17 @@ function App() {
     
     return (
         <div className="container">
-            <h1>⚽ tm8s</h1>
-            <p><i>Uncovering shared history on the pitch</i></p>
+            <div className="header-group"><h1 style={{fontSize: 90}}>⚽ tm8s</h1>
+            <p style={{fontSize: 18}}>Uncovering shared history on the pitch</p><br /><br />
+            </div>
+
+            <p style={{color: '#9A2A2A', fontSize: 12, alignItems: 'flex-end' }}>
+                ⚠️ tm8s currently supports football (soccer) only.
+            </p>
 
 
             <form onSubmit={handleSearch} className="search-box-form">
+                
                 <div className="search-box">
                     {/* Player 1 Input */}
                     <div className="player-input">
@@ -105,9 +111,6 @@ function App() {
                 <button type="submit" disabled={loading || !player1 || !player2}>
                     {loading ? "Scouting..." : "Find Connection"}
                 </button>
-            <p style={{color: '#9A2A2A', fontSize: 12 }}>
-                ⚠️ tm8s currently supports football (soccer) only.
-            </p>
             </form>
 
             {/* Results Section - START */}
