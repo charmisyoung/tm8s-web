@@ -1,5 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, Request # 👈 Add Request
-from .models import Player, CareerEntry, SearchLog # 👈 Add SearchLog
+from fastapi import FastAPI, Depends, HTTPException
 from sqlmodel import Session
 from starlette.responses import FileResponse
 from starlette.staticfiles import StaticFiles
@@ -41,44 +40,27 @@ def search_players(q: str, session: Session = Depends(get_session)):
 
 
 @app.get("/api/connections")
-def find_connections(
-    p1: str, 
-    p2: str, 
-    request: Request, # 👈 Add this parameter to get IP info
-    session: Session = Depends(get_session)
-):
+def find_connections(p1: str, p2: str, session: Session = Depends(get_session)):
     service = PlayerService(session)
     finder = ConnectionFinder()
 
-    # 1. Logic (Keep existing)
     p1_data = service.get_player_data(p1)
     p2_data = service.get_player_data(p2)
 
-    if not p1_data or not p2_data:
-        # Log failure before raising error
-        log = SearchLog(
-            player1=p1, 
-            player2=p2, 
-            found_connection=False,
-            ip_address=request.headers.get("fly-client-ip") or request.client.host
-        )
-        session.add(log)
-        session.commit()
-        raise HTTPException(status_code=404, detail="Player not found")
+    if not p1_data:
+        raise HTTPException(status_code=404, detail=f"Player '{p1}' not found")
+    if not p2_data:
+        raise HTTPException(status_code=404, detail=f"Player '{p2}' not found")
 
     connections = finder.find_player_connections(p1_data, p2_data)
-    
-    # 2. Log Success (New Logic)
-    # Fly.io passes the real user IP in the 'fly-client-ip' header
-    user_ip = request.headers.get("fly-client-ip") or request.client.host
-    
-    log = SearchLog(
-        player1=p1, 
-        player2=p2, 
-        found_connection=len(connections) > 0,
-        ip_address=user_ip
-    )
-    session.add(log)
-    session.commit()
 
-    return {"player1": p1, "player2": p2, "connections": connections, "count": len(connections)}
+    return {
+        "player1": p1,
+        "player2": p2,
+        "connections": connections,
+        "count": len(connections)
+    }
+
+app.mount("/assets", StaticFiles(directory="static_ui/assets"), name="assets")
+
+app.mount("/", StaticFiles(directory="static_ui", html=True), name="static")
