@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css'; 
-import KoFiWidget from './tm8s-frontend/KoFiWidget.tsx';
+import KoFiWidget from './KoFiWidget.tsx';
 
 declare global {
     interface Window {
