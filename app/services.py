@@ -20,7 +20,10 @@ class PlayerService:
             player.search_count += 1
             self.session.add(player)
             self.session.commit()
-            return [(c.club_name, c.start_year, c.end_year, c.crest_url) for c in player.careers]
+            return {
+                "name": player.name,  # 👈 Now we return the true database name
+                "history": [(c.club_name, c.start_year, c.end_year, c.crest_url) for c in player.careers]
+            }
 
         print(f"🌍 Cache Miss: Fetching '{player_name}' from API...")
         return self._fetch_and_cache_player(player_name, player)
@@ -29,7 +32,7 @@ class PlayerService:
         # A. Search API
         results = self.api.search_player(search_name)
         if not results:
-            return []
+            return None
 
         api_player_data = results[0]
         api_id_val = int(api_player_data['id'])  # Renamed var for clarity
@@ -89,7 +92,10 @@ class PlayerService:
             formatted_history.append((club_name, start_year, end_year, crest_url))
 
         self.session.commit()
-        return formatted_history
+        return {
+            "name": player.name,  # 👈 player.name was set to 'real_name' earlier in the function
+            "history": formatted_history
+        }
 
     def search_players(self, query: str):
         raw_results = self.api.search_player(query)
