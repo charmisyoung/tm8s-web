@@ -61,7 +61,8 @@ class TheSportsDBAPI:
                 players = response.json().get("player", []) or []
                 return [{"id": p["idPlayer"], "name": p["strPlayer"]} for p in players if p.get("strSport") == "Soccer"]
             return []
-        except:
+        except requests.exceptions.RequestException as e:
+            # Log the error here
             return []
 
     def get_player_clubs(self, player_id: int) -> List[Tuple[str, int, int, str]]:
@@ -102,9 +103,10 @@ class TheSportsDBAPI:
                         if (start_year - birth_year) > 45: continue
 
                     if club_name and start_year > 0:
-                        final_end = end_year if end_year > 0 else 2025
+                        current_year = datetime.now().year
+                        final_end = end_year if end_year > 0 else current_year
                         if final_end >= start_year:
-                            all_clubs_tuples.append((club_name, start_year, final_end, crest_url))
+                            all_clubs_tuples.append((current_team, profile_start, current_year, current_crest))
                             teams_seen.add(club_name)
                             if final_end > max_departure_year and final_end != 2025:
                                 max_departure_year = final_end
