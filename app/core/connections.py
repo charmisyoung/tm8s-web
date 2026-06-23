@@ -25,7 +25,7 @@ class ConnectionFinder:
                     overlap_start = max(p1_start, p2_start)
                     overlap_end = min(p1_end, p2_end)
 
-                    if overlap_start < overlap_end:
+                    if overlap_start <= overlap_end:
                         connections.append({
                             "club_name": p1_club,
                             "overlap_start": overlap_start,
