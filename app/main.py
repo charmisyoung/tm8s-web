@@ -43,19 +43,29 @@ def find_connections(p1: str, p2: str, session: Session = Depends(get_session)):
     service = PlayerService(session)
     finder = ConnectionFinder()
 
-    p1_data = service.get_player_data(p1)
-    p2_data = service.get_player_data(p2)
+    # 1. Resolve the raw strings into actual Player objects/records first
+    # (We will likely need to tweak services.py to make sure this method 
+    # returns both the clean name AND the history)
+    player1_record = service.resolve_player(p1) 
+    player2_record = service.resolve_player(p2)
 
-    if not p1_data:
-        raise HTTPException(status_code=404, detail=f"Player '{p1}' not found")
-    if not p2_data:
-        raise HTTPException(status_code=404, detail=f"Player '{p2}' not found")
+    if not player1_record:
+        raise HTTPException(status_code=404, detail=f"Player '{p1}' not found in database. Try a different spelling.")
+    if not player2_record:
+        raise HTTPException(status_code=404, detail=f"Player '{p2}' not found in database. Try a different spelling.")
 
-    connections = finder.find_player_connections(p1_data, p2_data)
+    # 2. Fetch the club histories using the resolved, standardized records
+    # (Assuming your resolve function grabs their canonical ID or exact DB match)
+    p1_history = service.get_player_history(player1_record.id)
+    p2_history = service.get_player_history(player2_record.id)
 
+    # 3. Run the math engine
+    connections = finder.find_player_connections(p1_history, p2_history)
+
+    # 4. Return the beautifully formatted, canonical names back to the frontend UI
     return {
-        "player1": p1,
-        "player2": p2,
+        "player1": player1_record.canonical_name,  # ✅ e.g., "Bernardo Silva"
+        "player2": player2_record.canonical_name,  # ✅ e.g., "Abdukodir Khusanov"
         "connections": connections,
         "count": len(connections)
     }
